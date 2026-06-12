@@ -30,7 +30,6 @@ financas-pessoais/
 ├── libs/raylib/
 ├── assets/
 ├── build/
-├── docs/
 ├── Makefile
 └── README.md
 ```
@@ -64,10 +63,10 @@ make clean
  
 | Algoritmo | Complexidade (melhor) | Complexidade (pior) | Uso no sistema |
 |---|---|---|---|
-| Bubble Sort | Ordenação simples |
-| Insertion Sort | Listas quase ordenadas |
-| Selection Sort | Ordenação por seleção |
-| Busca Binária | Busca em lista ordenada |
+| Bubble Sort | O(n) | O(n²) | Ordenação simples |
+| Insertion Sort | O(n) | O(n²) | Listas quase ordenadas |
+| Selection Sort | O(n²) | O(n²) | Ordenação por seleção |
+| Busca Binária | O(1) | O(log n) | Busca em lista ordenada |
  
  
 ## 🏫 Informações Acadêmicas
