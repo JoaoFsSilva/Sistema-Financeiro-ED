@@ -61,13 +61,12 @@ make clean
  
 ## 📚 Algoritmos Implementados
  
-| Algoritmo | Complexidade (melhor) | Complexidade (pior) | Uso no sistema |
-|---|---|---|---|
-| Bubble Sort | O(n) | O(n²) | Ordenação simples |
-| Insertion Sort | O(n) | O(n²) | Listas quase ordenadas |
-| Selection Sort | O(n²) | O(n²) | Ordenação por seleção |
-| Busca Binária | O(1) | O(log n) | Busca em lista ordenada |
- 
+| Algoritmo |
+|---|
+| Bubble Sort | 
+| Insertion Sort |
+| Selection Sort | 
+| Busca Binária |
  
 ## 🏫 Informações Acadêmicas
  
