@@ -1,0 +1,11 @@
+build/*.exe
+build/financas
+build/**/*.o
+!build/.gitkeep
+
+.vscode/settings.json
+.vscode/launch.json
+.vscode/c_cpp_properties.json
+
+Thumbs.db
+Desktop.ini
