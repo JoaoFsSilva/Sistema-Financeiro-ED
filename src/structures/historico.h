@@ -1,4 +1,3 @@
-/*
  * =========================================================================
  * INTEGRANTE 3 - HEADER DE HISTÓRICO (PILHA LIFO)
  * =========================================================================
@@ -9,19 +8,19 @@
 
 #include "../models/despesa.h"
 #include "../models/operacao.h"
-
-// ====== FUNÇÕES DO HISTÓRICO (Integrante 3) ======
+#include <string>
+using namespace std;
 
 // Wrapper com histórico para inserção
-void inserirComHistorico(const char* descricao, const char* categoria, 
-                        float valor, const char* data);
+void inserirComHistorico(const string& descricao, const string& categoria,
+                         float valor, const string& data);
 
 // Wrapper com histórico para remoção
 void removerComHistorico(int id);
 
 // Wrapper com histórico para edição
-void editarComHistorico(int id, const char* novaDescricao, const char* novaCategoria,
-                       float novoValor, const char* novaData);
+void editarComHistorico(int id, const string& novaDescricao, const string& novaCategoria,
+                        float novoValor, const string& novaData);
 
 // Desfaz a última operação
 void desfazerHistorico();
