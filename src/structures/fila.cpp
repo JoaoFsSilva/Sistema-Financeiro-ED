@@ -2,125 +2,114 @@
  * =========================================================================
  * INTEGRANTE 3 - FILA DE CONTAS PENDENTES (FIFO)
  * =========================================================================
- * Implementação de fila circular para gerenciar despesas pendentes de pagamento.
- * =========================================================================
  */
 
 #include "fila.h"
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 
-// =====================
-// FILA CIRCULAR
-// =====================
+// fila circular de despesas pendentes
 static Despesa filaContas[MAX_PENDENTES];
 static int frenteFila = 0;
-static int trasFila = 0;
-static int tamFila = 0;
+static int trasFila   = 0;
+static int tamFila    = 0;
 
-// =====================
-// FUNÇÕES DA FILA
-// =====================
-
+// verifica se a fila esta vazia
 bool filaVaziaContas() {
     return tamFila == 0;
 }
 
+// verifica se a fila esta cheia
 static bool filaCheiaContas() {
     return tamFila >= MAX_PENDENTES;
 }
 
-// Enfileira uma despesa (adiciona no final)
-void enqueueConta(const Despesa* d) {
+// adiciona despesa no final da fila
+void enqueueConta(const Despesa& d) {
     if (filaCheiaContas()) {
-        printf("Erro: Fila de contas pendentes cheia!\n");
+        cout << "Erro: Fila de contas pendentes cheia!" << endl;
         return;
     }
-    
-    filaContas[trasFila] = *d;
+    filaContas[trasFila] = d;
     trasFila = (trasFila + 1) % MAX_PENDENTES;
     tamFila++;
-    printf("Conta [%s] adicionada a fila de pagamentos pendentes.\n", d->descricao);
+    cout << "Conta [" << d.descricao << "] adicionada a fila de pagamentos pendentes." << endl;
 }
 
-// Desenfileira uma despesa (remove do início)
+// remove e retorna a despesa do inicio da fila
 Despesa dequeueConta() {
     Despesa vazia = {0, "", "", "", 0.0f, false};
-    
+
     if (filaVaziaContas()) {
-        printf("Erro: Nenhuma conta pendente na fila.\n");
+        cout << "Erro: Nenhuma conta pendente na fila." << endl;
         return vazia;
     }
-    
+
     Despesa d = filaContas[frenteFila];
     frenteFila = (frenteFila + 1) % MAX_PENDENTES;
     tamFila--;
     return d;
 }
 
-// Mostra todas as contas pendentes na fila
+// exibe todas as contas pendentes na fila
 void mostrarFilaContas() {
     if (filaVaziaContas()) {
-        printf("Fila de pagamentos vazia.\n");
+        cout << "Fila de pagamentos vazia." << endl;
         return;
     }
-    
-    printf("\n========== FILA DE CONTAS PENDENTES (FIFO) ==========\n");
-    printf("Total de contas: %d\n", tamFila);
-    printf("---\n");
-    
+
+    cout << "\n========== FILA DE CONTAS PENDENTES (FIFO) ==========" << endl;
+    cout << "Total de contas: " << tamFila << endl;
+    cout << "---" << endl;
+
     int tempFrente = frenteFila;
     for (int i = 0; i < tamFila; i++) {
-        printf("%d. [ID:%d] %s - R$ %.2f (%s) - %s\n",
-               i + 1,
-               filaContas[tempFrente].id,
-               filaContas[tempFrente].descricao,
-               filaContas[tempFrente].valor,
-               filaContas[tempFrente].categoria,
-               filaContas[tempFrente].data);
+        cout << i + 1 << ". [ID:" << filaContas[tempFrente].id << "] "
+             << filaContas[tempFrente].descricao << " - R$ "
+             << filaContas[tempFrente].valor << " ("
+             << filaContas[tempFrente].categoria << ") - "
+             << filaContas[tempFrente].data << endl;
         tempFrente = (tempFrente + 1) % MAX_PENDENTES;
     }
-    printf("=======================================================\n\n");
+    cout << "======================================================\n" << endl;
 }
 
-// Paga a próxima conta da fila
+// paga a proxima conta da fila e marca como paga na lista
 void pagarProximaConta() {
     if (filaVaziaContas()) {
-        printf("Nao ha contas para pagar.\n");
+        cout << "Nao ha contas para pagar." << endl;
         return;
     }
-    
+
     Despesa d = dequeueConta();
-    printf("\n>>> PAGANDO: [ID:%d] %s (Valor: R$ %.2f) - Removido da fila.\n\n", 
-           d.id, d.descricao, d.valor);
-    
-    // Marca como paga na lista original
+    cout << "\n>>> PAGANDO: [ID:" << d.id << "] " << d.descricao
+         << " (Valor: R$ " << d.valor << ") - Removido da fila.\n" << endl;
+
     marcarComoPaga(d.id);
 }
 
-// Agendar pagamento para despesa existente pelo id
-// Procura a despesa na lista global (de Integrante 1) e a adiciona na fila
+// agenda pagamento de despesa existente pelo ID
 void agendarPagamentoPorId(int id) {
     int idx = buscarIndice(id);
     if (idx == -1) {
-        printf("Despesa com ID %d nao encontrada para agendamento.\n", id);
+        cout << "Despesa com ID " << id << " nao encontrada para agendamento." << endl;
         return;
     }
-    
-    // Verifica se já não está na fila
+
+    // verifica se ja esta na fila
     int tempFrente = frenteFila;
     for (int i = 0; i < tamFila; i++) {
         if (filaContas[tempFrente].id == id) {
-            printf("Despesa ID %d ja esta na fila de pendentes!\n", id);
+            cout << "Despesa ID " << id << " ja esta na fila de pendentes!" << endl;
             return;
         }
         tempFrente = (tempFrente + 1) % MAX_PENDENTES;
     }
-    
-    // Adiciona à fila
-    enqueueConta(&lista[idx]);
+
+    enqueueConta(lista[idx]);
 }
 
-// Retorna quantas contas estão pendentes na fila
+// retorna quantas contas estao pendentes na fila
 int quantidadePendentes() {
     return tamFila;
 }

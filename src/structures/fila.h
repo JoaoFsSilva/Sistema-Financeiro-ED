@@ -10,28 +10,25 @@
 #include "../models/despesa.h"
 #include "../config.h"
 
-// ====== FUNÇÕES DA FILA (Integrante 3) ======
-
-// Verifica se fila está vazia
+// verifica se fila esta vazia
 bool filaVaziaContas();
 
-// Adiciona uma despesa à fila (enqueue)
-void enqueueConta(const Despesa* d);
+// adiciona uma despesa a fila (enqueue)
+void enqueueConta(const Despesa& d);
 
-// Remove a próxima despesa da fila (dequeue)
+// remove a proxima despesa da fila (dequeue)
 Despesa dequeueConta();
 
-// Mostra todas as contas pendentes
+// mostra todas as contas pendentes
 void mostrarFilaContas();
 
-// Paga a próxima conta da fila (remove e marca como paga)
+// paga a proxima conta da fila (remove e marca como paga)
 void pagarProximaConta();
 
-// Agendar pagamento para despesa existente pelo ID
-// Procura a despesa na lista global e a adiciona na fila
+// agenda pagamento para despesa existente pelo ID
 void agendarPagamentoPorId(int id);
 
-// Retorna quantidade de contas pendentes
+// retorna quantidade de contas pendentes
 int quantidadePendentes();
 
 #endif // FILA_H
