@@ -15,36 +15,6 @@ void bubblesort(Despesa lista[], int quantidade) {
     };
 };
 
-void selectionsort (Despesa lista[],int quantidade){
-
-    for( int i=0 ; i < quantidade -1 ; i++ ){
-        int menorpos = i;
-        for(int j = i+1;j < quantidade; j++ ){
-            if(lista[j].id < lista[menorpos].id){
-                menorpos = j;
-            }
-        }
-        Despesa aux = lista[i];
-        lista[i]= lista[menorpos];
-        lista[menorpos]=aux;
-    };
-};
-
-void insertionsort(Despesa lista[], int quantidade) {
-    for (int i = 1; i < quantidade; i++) {
-        
-        Despesa aux = lista[i]; // guarda a despesa inteira na mao
-        int j = i - 1;
-        
-        while (j >= 0 && lista[j].categoria > aux.categoria) {
-            lista[j+1] = lista[j]; // empurra para direita
-            j--; // volta uma posicao para comparar com o anterior
-        }
-        
-        lista[j+1] = aux; // coloca a despesa no lugar certo
-    }
-}
-
 // Selection Sort — ordena por ID crescente
 // Complexidade: sempre O(n²) — não melhora mesmo com lista ordenada
 void selectionsort(Despesa lista[], int quantidade) {
