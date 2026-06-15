@@ -1,5 +1,5 @@
 #include "../models/despesa.h"
-#include <cstring>
+#include "ordenacao.h"
 
 void bubblesort (Despesa lista[],int quantidade){
     
@@ -32,13 +32,13 @@ void selectionsort (Despesa lista[],int quantidade){
     };
 };
 
-void insertionsort(Despesa lista[]) {
+void insertionsort(Despesa lista[], int quantidade) {
     for (int i = 1; i < quantidade; i++) {
         
         Despesa aux = lista[i]; // guarda a despesa inteira na mao
         int j = i - 1;
         
-        while (j >= 0 && strcmp(lista[j].categoria, aux.categoria) > 0) {
+        while (j >= 0 && lista[j].categoria > aux.categoria) {
             lista[j+1] = lista[j]; // empurra para direita
             j--; // volta uma posicao para comparar com o anterior
         }

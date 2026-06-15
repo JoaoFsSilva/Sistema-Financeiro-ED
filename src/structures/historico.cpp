@@ -8,8 +8,8 @@
  */
 
 #include "historico.h"
-#include <stdio.h>
-#include <string.h>
+#include <iostream>
+using namespace std;
 
 // =====================
 // PILHA DO HISTÓRICO
@@ -54,8 +54,7 @@ static Operacao popOperacao() {
 // =====================
 
 // Wrapper: insere e registra na pilha
-void inserirComHistorico(const char* descricao, const char* categoria, 
-                        float valor, const char* data) {
+void inserirComHistorico(string descricao, string categoria, float valor, string data)  {
     // Chama a função original de Integrante 1
     inserir(descricao, categoria, valor, data);
     
@@ -82,8 +81,7 @@ void removerComHistorico(int id) {
 }
 
 // Wrapper: registra mudanças para edição
-void editarComHistorico(int id, const char* novaDescricao, const char* novaCategoria,
-                       float novoValor, const char* novaData) {
+void editarComHistorico(int id, string novaDescricao, string novaCategoria, float novoValor, string novaData)  {
     int idx = buscarIndice(id);
     if (idx == -1) {
         printf("ID %d nao encontrado para edicao!\n", id);
@@ -113,8 +111,7 @@ void desfazerHistorico() {
         case OP_CADASTRO: {
             // Desfazer CADASTRO = remover o último item inserido
             if (quantidade > 0) {
-                printf("Desfazendo: Cadastro de [%s]\n", 
-                       lista[quantidade - 1].descricao);
+                printf("Desfazendo: Cadastro de [%s]\n", lista[quantidade - 1].descricao);
                 quantidade--;
                 proximoId--;
             }
@@ -124,9 +121,7 @@ void desfazerHistorico() {
         case OP_REMOCAO: {
             // Desfazer REMOÇÃO = reinserir o item removido
             if (quantidade < MAX_DESPESAS) {
-                printf("Desfazendo: Remocao de [%s]\n", 
-                       ultima.despesaAnterior.descricao);
-                lista[quantidade] = ultima.despesaAnterior;
+                cout << "Desfazendo: Remocao de [" << ultima.despesaAnterior.descricao << "]" << endl;
                 quantidade++;
             }
             break;
@@ -136,15 +131,14 @@ void desfazerHistorico() {
             // Desfazer EDIÇÃO = restaurar os valores anteriores
             int idx = buscarIndice(ultima.despesaAnterior.id);
             if (idx != -1) {
-                printf("Desfazendo: Edicao de [%s]\n", 
-                       ultima.despesaAnterior.descricao);
+                cout << "Desfazendo: Edicao de [" << ultima.despesaAnterior.descricao << "]" << endl;
                 lista[idx] = ultima.despesaAnterior;
             }
             break;
         }
         
         default:
-            printf("Operacao desconhecida no historico!\n");
+            cout<<"Operacao desconhecida no historico \n";
     }
 }
 
@@ -163,8 +157,7 @@ void mostrarHistorico() {
             case OP_EDICAO: tipoStr = "EDICAO"; break;
             default: tipoStr = "DESCONHECIDO"; break;
         }
-        printf("%d. %s - [%s]\n", i + 1, tipoStr, 
-               pilhaHistorico[i].despesaAnterior.descricao);
+        cout << i + 1 << ". " << tipoStr << " - [" << pilhaHistorico[i].despesaAnterior.descricao << "]" << endl;
     }
     printf("------------------------------\n");
 }
