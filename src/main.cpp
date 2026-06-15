@@ -1,16 +1,16 @@
 #include "raylib.h"
 #include "config.h"
+#include "ui/interface.h"
 
-int main()
-{
+int main() {
     InitWindow(LARGURA_TELA, ALTURA_TELA, TITULO_JANELA);
     SetTargetFPS(FPS_ALVO);
 
-    while (!WindowShouldClose())
-    {
+    Sistema s = iniciarSistema();
+
+    while (!WindowShouldClose()) {
         BeginDrawing();
-            ClearBackground(RAYWHITE);
-            DrawText("Financas Pessoais - em desenvolvimento", 40, 40, 20, DARKGRAY);
+            desenharInterface(s);
         EndDrawing();
     }
 

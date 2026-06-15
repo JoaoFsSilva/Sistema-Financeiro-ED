@@ -19,6 +19,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR)/*.exe $(BUILD_DIR)/financas $(BUILD_DIR)/**/*.o
+	rm -rf $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
+	@touch $(BUILD_DIR)/.gitkeep
 
 .PHONY: all clean

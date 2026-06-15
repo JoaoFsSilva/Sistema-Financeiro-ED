@@ -1,3 +1,5 @@
+#ifndef ORDENACAO_H
+#define ORDENACAO_H
 
 #include "../models/despesa.h"
 
