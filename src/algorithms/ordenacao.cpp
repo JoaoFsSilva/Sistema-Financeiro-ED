@@ -1,36 +1,38 @@
 #include "../models/despesa.h"
 #include <cstring>
 
-void bubblesort (Despesa lista[],int quantidade){// Ordena despesas por valor (menor para maior)
+void bubblesort (Despesa lista[],int quantidade){
+    
+    int aux;
     
     for(int i=0; i < quantidade -1; i++){
         for(int j = 0; j < quantidade -i-1; j++){
- 
-            if(lista[j].valor > lista[j+1].valor){ // compara vizinhos
+
+            if(lista[j].valor > lista[j+1].valor){
                 Despesa aux = lista[j];
                 lista[j] = lista[j+1];
-                lista[j+1] = aux; // troca os dois de lugar
+                lista[j+1] = aux;
             }
         }
-    }
-}
- 
-void selectionsort (Despesa lista[],int quantidade){// Ordena despesas por ID (menor para maior)
- 
+    };
+};
+
+void selectionsort (Despesa lista[],int quantidade){
+
     for( int i=0 ; i < quantidade -1 ; i++ ){
-        int menorpos = i; // assume que o menor esta na posicao atual
+        int menorpos = i;
         for(int j = i+1;j < quantidade; j++ ){
             if(lista[j].id < lista[menorpos].id){
-                menorpos = j; // encontrou um ID menor, atualiza a posicao
+                menorpos = j;
             }
         }
         Despesa aux = lista[i];
         lista[i]= lista[menorpos];
-        lista[menorpos]=aux; // troca o menor encontrado com a posicao atual
-    }
-}
+        lista[menorpos]=aux;
+    };
+};
 
-void insertionsort(Despesa lista[]) {// Ordena despesas por categoria (ordem alfabetica)
+void insertionsort(Despesa lista[]) {
     for (int i = 1; i < quantidade; i++) {
         
         Despesa aux = lista[i]; // guarda a despesa inteira na mao
@@ -45,7 +47,7 @@ void insertionsort(Despesa lista[]) {// Ordena despesas por categoria (ordem alf
     }
 }
 
-int buscabinaria(Despesa lista[], int quantidade, int idprocurado) {// Busca despesa por ID, retorna posicao ou -1 se nao encontrar
+int buscabinaria(Despesa lista[], int quantidade, int idprocurado) {
     int esquerda = 0;
     int direita = quantidade - 1;
  

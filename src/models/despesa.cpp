@@ -2,20 +2,12 @@
  * =========================================================================
  * INTEGRANTE 1 - OPERAÇÕES DE DESPESA (CRUD)
  * =========================================================================
- * Implementação das funções de gerenciamento de despesas:
- * - Inserção (sequencial e ordenada)
- * - Edição
- * - Remoção
- * - Listagem
- * - Busca por categoria
- * - Total por categoria
- * =========================================================================
  */
 
 #include "despesa.h"
 #include "../config.h"
-#include <cstring>
-#include <stdio.h>
+#include <iostream>
+using namespace std;
 
 // =====================
 // VARIÁVEIS GLOBAIS
@@ -39,20 +31,20 @@ int buscarIndice(int id) {
 // Valida que o valor seja positivo
 bool valorValido(float valor) {
     if (valor <= 0) {
-        printf("Erro: O valor deve ser maior que zero!\n");
+        cout << "Erro: O valor deve ser maior que zero!" << endl;
         return false;
     }
     return true;
 }
 
 // Valida que descrição e categoria não estejam vazias
-bool camposValidos(const char* descricao, const char* categoria) {
-    if (descricao == NULL || descricao[0] == '\0') {
-        printf("Erro: A descricao nao pode ser vazia!\n");
+bool camposValidos(string descricao, string categoria) {
+    if (descricao.empty()) {
+        cout << "Erro: A descricao nao pode ser vazia!" << endl;
         return false;
     }
-    if (categoria == NULL || categoria[0] == '\0') {
-        printf("Erro: A categoria nao pode ser vazia!\n");
+    if (categoria.empty()) {
+        cout << "Erro: A categoria nao pode ser vazia!" << endl;
         return false;
     }
     return true;
@@ -63,33 +55,27 @@ bool camposValidos(const char* descricao, const char* categoria) {
 // =====================
 
 // 1. Inserção Sequencial (Vai para o final da lista)
-void inserir(const char* descricao, const char* categoria, float valor, const char* data) {
+void inserir(string descricao, string categoria, float valor, string data) {
     if (quantidade >= MAX_DESPESAS) {
-        printf("Erro: Lista cheia!\n");
+        cout << "Erro: Lista cheia!" << endl;
         return;
     }
     if (!camposValidos(descricao, categoria) || !valorValido(valor)) return;
 
-    lista[quantidade].id = proximoId++;
-    strncpy(lista[quantidade].descricao, descricao, MAX_DESC - 1);
-    lista[quantidade].descricao[MAX_DESC - 1] = '\0';
-    
-    strncpy(lista[quantidade].categoria, categoria, MAX_CATEG - 1);
-    lista[quantidade].categoria[MAX_CATEG - 1] = '\0';
-    
-    strncpy(lista[quantidade].data, data, MAX_DATA - 1);
-    lista[quantidade].data[MAX_DATA - 1] = '\0';
-    
-    lista[quantidade].valor = valor;
-    lista[quantidade].paga = false;
+    lista[quantidade].id        = proximoId++;
+    lista[quantidade].descricao = descricao;
+    lista[quantidade].categoria = categoria;
+    lista[quantidade].data      = data;
+    lista[quantidade].valor     = valor;
+    lista[quantidade].paga      = false;
     quantidade++;
-    printf("Despesa [%s] inserida com sucesso!\n", descricao);
+    cout << "Despesa [" << descricao << "] inserida com sucesso!" << endl;
 }
 
 // 2. Inserção Ordenada (insere ordenando pelo valor, do maior para o menor)
-void inserirOrdenado(const char* descricao, const char* categoria, float valor, const char* data) {
+void inserirOrdenado(string descricao, string categoria, float valor, string data) {
     if (quantidade >= MAX_DESPESAS) {
-        printf("Erro: Lista cheia!\n");
+        cout << "Erro: Lista cheia!" << endl;
         return;
     }
     if (!camposValidos(descricao, categoria) || !valorValido(valor)) return;
@@ -106,70 +92,54 @@ void inserirOrdenado(const char* descricao, const char* categoria, float valor, 
     }
 
     // Insere o novo elemento na posição correta
-    lista[pos].id = proximoId++;
-    strncpy(lista[pos].descricao, descricao, MAX_DESC - 1);
-    lista[pos].descricao[MAX_DESC - 1] = '\0';
-    
-    strncpy(lista[pos].categoria, categoria, MAX_CATEG - 1);
-    lista[pos].categoria[MAX_CATEG - 1] = '\0';
-    
-    strncpy(lista[pos].data, data, MAX_DATA - 1);
-    lista[pos].data[MAX_DATA - 1] = '\0';
-    
-    lista[pos].valor = valor;
-    lista[pos].paga = false;
+    lista[pos].id        = proximoId++;
+    lista[pos].descricao = descricao;
+    lista[pos].categoria = categoria;
+    lista[pos].data      = data;
+    lista[pos].valor     = valor;
+    lista[pos].paga      = false;
     quantidade++;
-    printf("Despesa [%s] inserida de forma ordenada!\n", descricao);
+    cout << "Despesa [" << descricao << "] inserida de forma ordenada!" << endl;
 }
 
 // 3. Listagem com formatação
 void listar() {
     if (quantidade == 0) {
-        printf("Lista vazia!\n");
+        cout << "Lista vazia!" << endl;
         return;
     }
-    printf("---------------------------------------------------\n");
+    cout << "---------------------------------------------------" << endl;
     for (int i = 0; i < quantidade; i++) {
-        printf("[%d] %s (%s) - R$ %.2f em %s %s\n",
-               lista[i].id,
-               lista[i].descricao,
-               lista[i].categoria,
-               lista[i].valor,
-               lista[i].data,
-               lista[i].paga ? "(PAGA)" : "(PENDENTE)");
+        cout << "[" << lista[i].id << "] "
+             << lista[i].descricao << " (" << lista[i].categoria << ") - R$ "
+             << lista[i].valor << " em " << lista[i].data << " "
+             << (lista[i].paga ? "(PAGA)" : "(PENDENTE)") << endl;
     }
-    printf("---------------------------------------------------\n");
+    cout << "---------------------------------------------------" << endl;
 }
 
 // 4. Edição
-void editar(int id, const char* novaDescricao, const char* novaCategoria, 
-            float novoValor, const char* novaData) {
+void editar(int id, string novaDescricao, string novaCategoria, float novoValor, string novaData) {
     if (!camposValidos(novaDescricao, novaCategoria) || !valorValido(novoValor)) return;
 
     int idx = buscarIndice(id);
     if (idx == -1) {
-        printf("ID %d nao encontrado para edicao!\n", id);
+        cout << "ID " << id << " nao encontrado para edicao!" << endl;
         return;
     }
-    
-    strncpy(lista[idx].descricao, novaDescricao, MAX_DESC - 1);
-    lista[idx].descricao[MAX_DESC - 1] = '\0';
-    
-    strncpy(lista[idx].categoria, novaCategoria, MAX_CATEG - 1);
-    lista[idx].categoria[MAX_CATEG - 1] = '\0';
-    
-    strncpy(lista[idx].data, novaData, MAX_DATA - 1);
-    lista[idx].data[MAX_DATA - 1] = '\0';
-    
-    lista[idx].valor = novoValor;
-    printf("Despesa %d editada com sucesso!\n", id);
+
+    lista[idx].descricao = novaDescricao;
+    lista[idx].categoria = novaCategoria;
+    lista[idx].data      = novaData;
+    lista[idx].valor     = novoValor;
+    cout << "Despesa " << id << " editada com sucesso!" << endl;
 }
 
 // 5. Remoção
 void remover(int id) {
     int idx = buscarIndice(id);
     if (idx == -1) {
-        printf("ID %d nao encontrado para remocao!\n", id);
+        cout << "ID " << id << " nao encontrado para remocao!" << endl;
         return;
     }
     // Desloca os elementos para a esquerda para cobrir o "buraco"
@@ -177,33 +147,31 @@ void remover(int id) {
         lista[j] = lista[j + 1];
     }
     quantidade--;
-    printf("Despesa %d removida com sucesso!\n", id);
+    cout << "Despesa " << id << " removida com sucesso!" << endl;
 }
 
 // 6. Busca por categoria
-void buscarPorCategoria(const char* categoria) {
+void buscarPorCategoria(string categoria) {
     bool encontrou = false;
-    printf("--- Despesas na categoria [%s] ---\n", categoria);
+    cout << "--- Despesas na categoria [" << categoria << "] ---" << endl;
     for (int i = 0; i < quantidade; i++) {
-        if (strcmp(lista[i].categoria, categoria) == 0) {
-            printf("[%d] %s - R$ %.2f em %s %s\n",
-                   lista[i].id,
-                   lista[i].descricao,
-                   lista[i].valor,
-                   lista[i].data,
-                   lista[i].paga ? "(PAGA)" : "(PENDENTE)");
+        if (lista[i].categoria == categoria) {
+            cout << "[" << lista[i].id << "] "
+                 << lista[i].descricao << " - R$ "
+                 << lista[i].valor << " em " << lista[i].data << " "
+                 << (lista[i].paga ? "(PAGA)" : "(PENDENTE)") << endl;
             encontrou = true;
         }
     }
-    if (!encontrou) printf("Nenhuma despesa encontrada nessa categoria.\n");
-    printf("---------------------------------------------------\n");
+    if (!encontrou) cout << "Nenhuma despesa encontrada nessa categoria." << endl;
+    cout << "---------------------------------------------------" << endl;
 }
 
 // 7. Total por categoria
-float totalPorCategoria(const char* categoria) {
+float totalPorCategoria(string categoria) {
     float total = 0.0f;
     for (int i = 0; i < quantidade; i++) {
-        if (strcmp(lista[i].categoria, categoria) == 0) {
+        if (lista[i].categoria == categoria) {
             total += lista[i].valor;
         }
     }
@@ -214,9 +182,9 @@ float totalPorCategoria(const char* categoria) {
 void marcarComoPaga(int id) {
     int idx = buscarIndice(id);
     if (idx == -1) {
-        printf("ID %d nao encontrado!\n", id);
+        cout << "ID " << id << " nao encontrado!" << endl;
         return;
     }
     lista[idx].paga = true;
-    printf("Despesa %d marcada como paga!\n", id);
+    cout << "Despesa " << id << " marcada como paga!" << endl;
 }
