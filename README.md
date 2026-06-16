@@ -2,7 +2,7 @@
 
 Sistema de gerenciamento de finanças pessoais desenvolvido em C++ com interface gráfica em Raylib.  
 Projeto acadêmico — Disciplina de Estrutura de Dados — UNIALFA — 3° Semestre — Prof. Rodrigo Naka.
-
+Link github: https://github.com/JoaoFsSilva/Sistema-Financeiro-ED
 ---
 
 ## ✅ Funcionalidades
